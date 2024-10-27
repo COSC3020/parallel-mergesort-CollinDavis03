@@ -12,3 +12,10 @@ the function and run automatically when you commit through a GitHub action.
 
 What is the span of the parallel program, in terms of worst-case $\Theta$? Hint:
 It may help to consider the DAG of the parallel program.
+
+
+## Answer
+
+## Sources 
+https://rachitvasudeva.medium.com/parallel-merge-sort-algorithm-e8175ab60e7
+## Plagarism Statement
