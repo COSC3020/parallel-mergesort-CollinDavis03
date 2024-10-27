@@ -48,5 +48,5 @@ async function mergeSort(array) {
   return array; //return sorted array
 } 
 
-
+module.exports = { mergeSort }; 
 
