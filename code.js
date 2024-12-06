@@ -1,52 +1,67 @@
-const async = require('async'); 
+// Helper function to merge the two halves
+function merge(array, low, middle, high, temp) {
+  let leftIn = low;
+  let rightIn = middle + 1;
 
-//Helper function to merge the two halves
-// Need array, low, middle, high, and temp elements. 
-function merge(array, low, middle, high, temp) { 
-  let LeftIn = low;
-  let RightIn = middle + 1; 
-
-  //Merge elements from both halves into Temp array
-  for (let n = low; n <= high; n++) { 
-    if (LeftIn <= mide && (RightIn > high || array[LeftIn] <= array[RightIn])) {
-      temp[n] = array[LeftIn]; 
+  // Merge elements from both halves into temp array
+  for (let n = low; n <= high; n++) {
+    if (leftIn <= middle && (rightIn > high || array[leftIn] <= array[rightIn])) {
+      temp[n] = array[leftIn];
+      leftIn++;
     } else {
-      temp[n] = array[RightIn];
+      temp[n] = array[rightIn];
+      rightIn++;
     }
   }
 
-  //Copy sorted elements into Temp 
+  // Copy sorted elements from temp back to the original array
   for (let n = low; n <= high; n++) {
-    array[n] = temp[n]; 
-  } 
+    array[n] = temp[n];
+  }
 }
 
-//Recursive parallel mergesort
-//Need array, low, high, and temp elements.
+// Helper function for insertion sort (used for small ranges)
+function insertionSort(array, low, high) {
+  for (let i = low + 1; i <= high; i++) {
+    const key = array[i];
+    let j = i - 1;
+    while (j >= low && array[j] > key) {
+      array[j + 1] = array[j];
+      j--;
+    }
+    array[j + 1] = key;
+  }
+}
+
+// Recursive parallel merge sort
 async function ParallelMergeSort(array, low, high, temp) {
-  //Base Case
-  if (low >= high) return; 
+  // Use insertion sort for small ranges
+  if (high - low <= 10) {
+    insertionSort(array, low, high);
+    return;
+  }
 
-  //Find Midpoint
-  const middle = Math.floor((low + high) / 2); 
-  
-  // Recursive sort both halves into parallel
-  await Promise.all ([
-    ParallelMergeSort(array, low, high, temp), //Left?
-    ParallelMergeSort(array, middle + 1, high, temp) //Right?
+  // Base Case: If the range contains 1 or fewer elements, it's already sorted
+  if (low >= high) return;
+
+  // Find midpoint
+  const middle = Math.floor((low + high) / 2);
+
+  // Recursive sort both halves in parallel
+  await Promise.all([
+    ParallelMergeSort(array, low, middle, temp), // Sort the left half
+    ParallelMergeSort(array, middle + 1, high, temp), // Sort the right half
   ]);
-  
-  //merge sorted halves
-  merge(array, low, middle, high, temp); 
+
+  // Merge the sorted halves
+  merge(array, low, middle, high, temp);
 }
 
-//Entry point for mergesort
-//need array and the returns
+// Entry point for merge sort
 async function mergeSort(array) {
-  const temp = Array(array.length); //Initialize temp array
+  const temp = Array(array.length); // Initialize temp array
   await ParallelMergeSort(array, 0, array.length - 1, temp); // Start sorting process
-  return array; //return sorted array
-} 
+  return array; // Return sorted array
+}
 
-module.exports = { mergeSort }; 
-
+module.exports = { mergeSort };
