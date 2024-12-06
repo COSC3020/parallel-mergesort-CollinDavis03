@@ -10,10 +10,10 @@ function generateRandomArray(length) {
   return array;
 }
 
-// Test to verify functionality of parallel mergesort
+// Test suite for parallel merge sort
 async function TestPMS() {
-  const numTests = 10;
-  const maxLength = 100;
+  const numTests = 10; // Number of tests to run
+  const maxLength = 100; // Maximum array length
   const testPromises = [];
 
   // Generate tests and run them
