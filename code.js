@@ -32,7 +32,7 @@ async function ParallelMergeSort(array, low, high, temp) {
   
   // Recursive sort both halves into parallel
   await Promise.all ([
-    ParallelMergeSort(array, low, high, temp) //Left?
+    ParallelMergeSort(array, low, high, temp), //Left?
     ParallelMergeSort(array, middle + 1, high, temp) //Right?
   ]);
   
