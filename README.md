@@ -27,9 +27,12 @@ When we apply all the other n/4 and n/8 so it goes down to the size of $\Theta(1
 
 Thus the span is: 
 
-$T_{span}(n) = \Theta(log n)$
+$T_{span}(n) = \Theta(log n) * \Theta(n)$
 
-the worst-case runtime would be $\Theta(log n)$ 
+the worst-case runtime would be $\Theta(log n) * \Theta(n)$ or would just be $\Theta(n)$ but the total runtime is $\Theta(n log n)$. Since we are doing Span then it would be $\Theta(n)$
+
+## Mistake 
+The linear runtime is coming from the merge step in the code. This happens because the arrays are sorted into halves and they get compared. Then, it is copied into a temporary array and will be put back into the original when necessary. For an array the size of n, this process requires iterating over all the elements n, which will give us a $\Theta(n)$ operation. 
 
 ## Sources 
 I looked at this website here to better understand parallel mergesort because we had not learned it in class yet. https://rachitvasudeva.medium.com/parallel-merge-sort-algorithm-e8175ab60e7 . https://github.com/ahmet-uyar/parallel-merge-sort I looked at his personal repo to get an idea of where to start and how to do everything properly. I also looked up if there were any kinds of code or functions that you can use that will have parallelism involved in it. It said to try using async and Promise.all. When I implemented that into my code it worked perfectly fine. 
